@@ -41,19 +41,20 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
         //1、从请求头中获取令牌
         String token = request.getHeader(jwtProperties.getAdminTokenName());
-
+        if (token.isEmpty()) {
+            throw new JwtException("令牌为空，请重新登陆");
+        }
         //2、校验令牌
         try {
             log.info("jwt校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Integer userId = (Integer) claims.get("id");
-            System.out.println("id: " + userId.intValue());
             log.info("当前员工id：" + userId);
             // 通过ThreadLocal存储当前用户id
             ThreadLocalUtil.addCurrentUser(userService.getById(userId));
 
         } catch (JwtException exception) {
-            throw new JwtException("令牌不正确");
+            throw new JwtException("令牌不正确，请重新登陆");
         }
         return true;
     }

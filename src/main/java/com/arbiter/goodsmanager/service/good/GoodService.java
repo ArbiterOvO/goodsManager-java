@@ -1,6 +1,7 @@
 package com.arbiter.goodsmanager.service.good;
 
 import com.arbiter.goodsmanager.pojo.Good;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

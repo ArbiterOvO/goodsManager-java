@@ -3,6 +3,8 @@ package com.arbiter.goodsmanager.service.good.impl;
 import com.arbiter.goodsmanager.mapper.GoodMapper;
 import com.arbiter.goodsmanager.pojo.Good;
 import com.arbiter.goodsmanager.service.good.GoodService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper,Good> implements Goo
 
     @Override
     public List<Good> getAllGoods() {
+
         return goodMapper.selectList(null);
     }
 }

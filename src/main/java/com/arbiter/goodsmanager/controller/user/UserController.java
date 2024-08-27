@@ -62,6 +62,7 @@ public class UserController {
     public Result<JSONObject> currentUser()
     {
         User currentUser = ThreadLocalUtil.getCurrentUser();
+        System.out.println(currentUser);
         JSONObject jsonObject=JSON.parseObject(JSON.toJSONString(currentUser));
         return Result.success(jsonObject);
     }
