@@ -13,4 +13,5 @@ public class Source {
     @TableId(type= IdType.AUTO)
     int id;
     String name;
+    String description;
 }

@@ -13,4 +13,5 @@ public class Brand {
     @TableId(type= IdType.AUTO)
     int id;
     String name;
+    String description;
 }

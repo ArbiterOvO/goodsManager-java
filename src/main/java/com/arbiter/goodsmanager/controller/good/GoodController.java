@@ -11,10 +11,7 @@ import com.arbiter.goodsmanager.service.source.SourceService;
 import com.arbiter.goodsmanager.util.JsonUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,5 +48,32 @@ public class GoodController {
         return Result.success(jsonObjects);
     }
 
+    @GetMapping("/{id}")
+    public Result<JSONObject> getGoodById(@PathVariable int id)
+    {
+        Good byId = goodService.getById(id);
+        return Result.success(JsonUtil.toJson(byId));
+    }
+
+    @PostMapping("/add")
+    public Result<String> addNewGoods(@RequestBody Good good)
+    {
+        goodService.save(good);
+        return Result.success();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Result<String> deleteOneGoods(@PathVariable int id)
+    {
+        goodService.removeById(id);
+        return Result.success();
+    }
+
+    @PostMapping("/edit")
+    public Result<String> updateOneGoods(@RequestBody Good good)
+    {
+        goodService.updateById(good);
+        return Result.success();
+    }
 
 }

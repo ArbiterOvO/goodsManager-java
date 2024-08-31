@@ -19,10 +19,10 @@ public class NewsController {
 
     final NewsService newsService;
 
-    @GetMapping("/10")
+    @GetMapping("/all")
     public Result<List<JSONObject>> getNews()
     {
-        List<News> newsService10News = newsService.get10News();
+        List<News> newsService10News = newsService.list();
         return Result.success(JsonUtil.ListToJsonList(newsService10News));
     }
 
