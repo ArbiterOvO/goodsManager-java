@@ -12,9 +12,7 @@ import com.arbiter.goodsmanager.service.source.SourceService;
 import com.arbiter.goodsmanager.util.JsonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +28,45 @@ public class BrandController {
     public Result<List<JSONObject>> getAllBrands()
     {
         List<Brand> list = brandService.list();
+        List<JSONObject> jsonObjects = poListToJsonList(list);
+        return Result.success(jsonObjects);
+    }
+
+    @GetMapping("/{id}")
+    public Result<JSONObject> getSourceById(@PathVariable int id) {
+        Brand byId = brandService.getById(id);
+        return Result.success(JsonUtil.toJson(byId));
+    }
+
+    @PostMapping("/add")
+    public Result<String> addSource(@RequestBody Brand brand) {
+        brandService.save(brand);
+        return Result.success();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Result<String> deleteSource(@PathVariable int id) {
+        brandService.removeById(id);
+        return Result.success();
+    }
+
+    @PostMapping("/edit")
+    public Result<String> updateSource(@RequestBody Brand brand) {
+        brandService.updateById(brand);
+        return Result.success();
+    }
+
+    @PostMapping("/search")
+    public Result<List<JSONObject>> searchSource(@RequestParam String name) {
+        List<Brand> list = brandService.list(new QueryWrapper<Brand>().like("name", name));
+        List<JSONObject> jsonObjects = poListToJsonList(list);
+        return Result.success(jsonObjects);
+    }
+
+    private List<JSONObject> poListToJsonList(List<Brand> brands) {
+
         List<JSONObject> jsonObjects = new ArrayList<>();
-        for (Brand brand : list) {
+        for (Brand brand : brands) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", brand.getId());
             jsonObject.put("name", brand.getName());
@@ -47,7 +82,6 @@ public class BrandController {
             jsonObject.put("description",brand.getDescription());
             jsonObjects.add(jsonObject);
         }
-        return Result.success(jsonObjects);
+        return jsonObjects;
     }
-
 }

@@ -1,6 +1,7 @@
 package com.arbiter.goodsmanager.controller.good;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arbiter.goodsmanager.DTO.SearchGoodDTO;
 import com.arbiter.goodsmanager.VO.GoodVO;
 import com.arbiter.goodsmanager.pojo.Good;
 import com.arbiter.goodsmanager.result.Result;
@@ -28,24 +29,10 @@ public class GoodController {
     @GetMapping("/all")
     public Result<List<JSONObject>> getAllGoods()
     {
-        List<Good> allGoods = goodService.getAllGoods();
-        List<JSONObject> jsonObjects = new ArrayList<>();
-        for (Good good : allGoods) {
-            GoodVO goodVO = new GoodVO();
-            goodVO.setId(good.getId());
-            goodVO.setGoodId(good.getGoodId());
-            goodVO.setName(good.getName());
-            goodVO.setCategory(categoryService.getById(good.getCategoryId()).getName());
-            goodVO.setNumber(good.getNumber());
-            goodVO.setSoldNumber(good.getSoldNumber());
-            goodVO.setPrice(good.getPrice());
-            goodVO.setStatus(good.getStatus()==1?"在售":"下架");
-            goodVO.setSource(sourceService.getById(good.getSourceId()).getName());
-            goodVO.setBrand(brandService.getById(good.getBrandId()).getName());
-            jsonObjects.add(JsonUtil.toJson(goodVO));
-        }
+        List<Good> goods = goodService.getAllGoods();
+        List<GoodVO> goodVOList = toGoodVOList(goods);
 
-        return Result.success(jsonObjects);
+        return Result.success(JsonUtil.ListToJsonList(goodVOList));
     }
 
     @GetMapping("/{id}")
@@ -76,4 +63,33 @@ public class GoodController {
         return Result.success();
     }
 
+    @PostMapping("/search")
+    public Result<List<JSONObject>> searchGood(@RequestBody SearchGoodDTO searchGoodDTO)
+    {
+        System.out.println("searchGoodDTO = " + searchGoodDTO);
+
+        List<Good> goods = goodService.serchGood(searchGoodDTO);
+        List<GoodVO> goodVOList = toGoodVOList(goods);
+        return Result.success(JsonUtil.ListToJsonList(goodVOList));
+    }
+
+    //Good转GoodVO
+    public List<GoodVO> toGoodVOList(List<Good> goods) {
+        List<GoodVO> goodVOs = new ArrayList<>();
+        for (Good good : goods) {
+            GoodVO goodVO = new GoodVO();
+            goodVO.setId(good.getId());
+            goodVO.setGoodId(good.getGoodId());
+            goodVO.setName(good.getName());
+            goodVO.setCategory(categoryService.getById(good.getCategoryId()).getName());
+            goodVO.setNumber(good.getNumber());
+            goodVO.setSoldNumber(good.getSoldNumber());
+            goodVO.setPrice(good.getPrice());
+            goodVO.setStatus(good.getStatus()==1?"在售":"下架");
+            goodVO.setSource(sourceService.getById(good.getSourceId()).getName());
+            goodVO.setBrand(brandService.getById(good.getBrandId()).getName());
+            goodVOs.add(goodVO);
+        }
+        return goodVOs;
+    }
 }
