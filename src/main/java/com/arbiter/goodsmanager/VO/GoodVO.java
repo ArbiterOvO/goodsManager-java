@@ -18,4 +18,5 @@ public class GoodVO {
     private String status;
     private String source;
     private String brand;
+    private String img;
 }

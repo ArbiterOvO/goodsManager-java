@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.OutputStream;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/oss/file")
@@ -25,6 +27,8 @@ public class OssController {
 
     @PostMapping("/download")
     public Result<String> download(@RequestBody String url) {
-        ossService.download(url);
+        OutputStream download = ossService.download(url);
+        //Todo OutputStream转格式
+        return Result.success(download.toString());
     }
 }

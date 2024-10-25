@@ -21,4 +21,5 @@ public class Good {
     Integer status;
     Integer sourceId;
     Integer brandId;
+    String img;
 }

@@ -10,6 +10,10 @@ spring:
       multipart:
         max-file-size: 100MB
         max-request-size: 100MB
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 50MB
 sky:
   jwt:
     # 设置jwt签名加密时使用的秘钥
@@ -31,3 +35,7 @@ aliyun:
 #mybatis-plus:
 #  configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+upload:
+  path: D:\\vue-project\\imgs  # 文件保存的路径 和 nginx.conf 保持一致
+  reUrl: http://localhost:80 # nginx的访问ip和端口 和 nginx.conf 保持一致
