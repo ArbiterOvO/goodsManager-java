@@ -27,8 +27,8 @@ aliyun:
   oss:
     file:
       endpoint: oss-cn-hangzhou.aliyuncs.com
-      keyid: LTAI5tRd5xQDGzMMhvnFzKHT
-      keysecret: 5PWpLjbOZEcWIczlvDojc51ZCeHyyT
+      keyid: ???
+      keysecret: ???
       #        bucket可以由控制台创建，也可以使用java代码创建
       bucketname: sky-ot
 #打印mybatis-plus日志
